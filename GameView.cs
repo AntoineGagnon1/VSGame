@@ -195,6 +195,8 @@ namespace VSGame
                         int middle = bitmap.PixelHeight / 2;
                         int end = start + height;
 
+                        float lightAmount = 1.0f - (dist / RenderDistance); // Shade based on distance
+
                         for (int y = 0; y < bitmap.PixelHeight; y++)
                         {
                             // Get the color from the hit and distance
@@ -207,7 +209,7 @@ namespace VSGame
                             if (hit == 1)
                             {
                                 if(y >= start && y <= end)
-                                    color = GetColorInt(255,0,0);
+                                    color = GetColorInt((byte)(255 * lightAmount), 0,0);
                             }
 
                             // Set the color in the bitmap
