@@ -27,10 +27,7 @@ namespace VSGame
     {
         Stopwatch stopWatch = new Stopwatch();
         WriteableBitmap bitmap;
-
-
-        // Empty = 0
-        // Wall = 1
+        
 
         private static readonly double Deg2Rad = Math.PI / 180.0;
 
@@ -39,6 +36,11 @@ namespace VSGame
         private static readonly int RenderDistance = 10; // In Cells
         private static readonly float FOV = 60; // In Degrees
         private static readonly int CellHeight = 1;
+
+        private ReadOnlyBitmap wallTexture;
+
+        // Empty = 0
+        // Wall = 1
         private static int[,] map = new int[10, 10] {
             { 0,0,0,0,0,0,0,0,0,0 },
             { 0,1,0,1,0,1,0,1,0,0 },
@@ -66,6 +68,8 @@ namespace VSGame
         public GameView() : base(null)
         {
             this.Caption = "GameView";
+
+            wallTexture = new ReadOnlyBitmap((System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("Assets/Wall.png")); // From http://opengameart.org/content/dungeon-crawl-32x32-tiles
 
             Image image = new Image();
             image.KeyDown += KeyDown;
@@ -164,12 +168,13 @@ namespace VSGame
                         float dist = 0; // Distance traveled by the ray
                         int hit = 0; // Id of the object that was hit
                         bool outOfMap = false;
+                        float textureX = 0f; // Texture sample position
                         while(dist <= RenderDistance)
                         {
                             Vector2 checkPos = lookDir * dist + cameraOffset;
 
-                            int checkX = (int)Math.Round(checkPos.X);
-                            int checkY = (int)Math.Round(checkPos.Y);
+                            int checkX = (int)Math.Floor(checkPos.X);
+                            int checkY = (int)Math.Floor(checkPos.Y);
                             if (checkX < 0 || checkX >= map.GetLength(0) || checkY < 0 || checkY >= map.GetLength(1))
                             {
                                 outOfMap = true;
@@ -179,6 +184,21 @@ namespace VSGame
                             if (map[checkX, checkY] != 0)
                             {
                                 hit = map[checkX, checkY];
+
+                                // Get the side the ray intersected
+                                float tan = (float)Math.Atan2((checkX + 0.5f) - checkPos.X, (checkY + 0.5f) - checkPos.Y);
+
+                                if (tan <= Math.PI * 0.25f && tan > -Math.PI * 0.25f)
+                                    textureX = (checkX + 1f) - checkPos.X; // Top
+                                else if (tan <= -Math.PI * 0.25f && tan > -Math.PI * 0.75f)
+                                    textureX = (checkY + 1f) - checkPos.Y; // Left
+                                else if (tan > Math.PI * 0.25f && tan <= Math.PI * 0.75f)
+                                    textureX = checkPos.Y - checkY; // Right
+                                else if (tan > Math.PI * 0.75f || tan <= -Math.PI * 0.75f)
+                                    textureX = checkPos.X - checkX; // Bottom
+                                else
+                                    textureX = 1;
+
                                 break;
                             }
 
@@ -206,10 +226,15 @@ namespace VSGame
                                 || (outOfMap && y > end)) // No floor when out of the map
                                 color = FloorColor;
 
-                            if (hit == 1)
+                            if (y >= start && y <= end)
                             {
-                                if(y >= start && y <= end)
-                                    color = GetColorInt((byte)(255 * lightAmount), 0,0);
+                                float textureY = ((float)y - (float)start) / (float)height;
+
+                                if (hit == 1)
+                                {
+                                    // Get the color from the texure
+                                    color = GetColorInt(wallTexture.GetPixel((int)Math.Round(textureX * (wallTexture.Width - 1)), (int)Math.Round(textureY * (wallTexture.Height - 1))));
+                                }
                             }
 
                             // Set the color in the bitmap
@@ -229,9 +254,15 @@ namespace VSGame
             }
         }
 
+
         private static int GetColorInt(byte r, byte g, byte b)
         {
             return (r << 16) | (g << 8) | b;
+        }
+
+        private static int GetColorInt(System.Drawing.Color color)
+        {
+            return (color.R << 16) | (color.G << 8) | color.B;
         }
     }
 }
