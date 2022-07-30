@@ -53,6 +53,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Src\Games\GameWindow.cs" />
     <Compile Include="Src\ReadOnlyBitmap.cs" />
     <Compile Include="Src\Games\FpsGame.cs" />
     <Compile Include="Src\Games\FpsGameCommand.cs" />
