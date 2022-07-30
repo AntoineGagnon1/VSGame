@@ -53,14 +53,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ReadOnlyBitmap.cs" />
-    <Compile Include="GameView.cs" />
-    <Compile Include="GameViewCommand.cs" />
-    <Compile Include="GameViewControl.xaml.cs">
-      <DependentUpon>GameViewControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Src\ReadOnlyBitmap.cs" />
+    <Compile Include="Src\Games\FpsGame.cs" />
+    <Compile Include="Src\Games\FpsGameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VSGamePackage.cs" />
+    <Compile Include="Src\VSGamesPackage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
@@ -86,17 +83,11 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.1.4054" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="GameViewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Wall.png">
+    <Content Include="Resources\Fps\Wall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\GameViewCommand.png" />
-    <VSCTCompile Include="VSGamePackage.vsct">
+    <Content Include="Resources\Logo.png" />
+    <VSCTCompile Include="VSGamesPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>

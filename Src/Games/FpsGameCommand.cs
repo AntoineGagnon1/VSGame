@@ -7,12 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace VSGame
+namespace VSGames
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class GameViewCommand
+    internal sealed class FpsGameCommand
     {
         /// <summary>
         /// Command ID.
@@ -30,12 +30,12 @@ namespace VSGame
         private readonly AsyncPackage package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameViewCommand"/> class.
+        /// Initializes a new instance of the <see cref="FpsGameCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private GameViewCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private FpsGameCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -48,7 +48,7 @@ namespace VSGame
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static GameViewCommand Instance
+        public static FpsGameCommand Instance
         {
             get;
             private set;
@@ -76,7 +76,7 @@ namespace VSGame
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new GameViewCommand(package, commandService);
+            Instance = new FpsGameCommand(package, commandService);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace VSGame
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.package.FindToolWindow(typeof(GameView), 0, true);
+            ToolWindowPane window = this.package.FindToolWindow(typeof(FpsGame), 0, true);
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException("Cannot create tool window");

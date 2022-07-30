@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace VSGame
+namespace VSGames
 {
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.
@@ -23,7 +23,7 @@ namespace VSGame
     /// </para>
     /// </remarks>
     [Guid("7cae38a8-a631-4ba5-a37e-098df7db38c2")]
-    public class GameView : ToolWindowPane
+    public class FpsGame : ToolWindowPane
     {
         Stopwatch stopWatch = new Stopwatch();
         WriteableBitmap bitmap;
@@ -65,11 +65,11 @@ namespace VSGame
 
         Label fpsCounter;
 
-        public GameView() : base(null)
+        public FpsGame() : base(null)
         {
             this.Caption = "GameView";
 
-            wallTexture = new ReadOnlyBitmap((System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("Assets/Wall.png")); // From http://opengameart.org/content/dungeon-crawl-32x32-tiles
+            wallTexture = new ReadOnlyBitmap((System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("Resources/Fps/Wall.png")); // From http://opengameart.org/content/dungeon-crawl-32x32-tiles
 
             Image image = new Image();
             image.KeyDown += KeyDown;
