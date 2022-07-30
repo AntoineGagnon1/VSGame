@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace VSGames.Games
 {
-    public struct KeyState
+    public class KeyState
     {
         public bool IsDown;
         public bool IsJustDown;
@@ -30,7 +30,7 @@ namespace VSGames.Games
         private bool bitmapLocked = false;
         private IntPtr bitmapBuffer;
 
-        private KeyState[] keyStates = new KeyState[Enum.GetValues(typeof(Key)).Cast<int>().Max()];
+        private Dictionary<Key, KeyState> keyStates = new Dictionary<Key, KeyState>();
 
         public event KeyEventHandler OnKeyDown;
         public event KeyEventHandler OnKeyUp;
@@ -45,14 +45,21 @@ namespace VSGames.Games
         {
             this.Caption = name;
 
+            // Inputs
+            var inputs = Enum.GetValues(typeof(Key));
+            foreach (Key input in inputs)
+            {
+                if (!keyStates.ContainsKey(input)) // Lots of duplicate in Key
+                    keyStates.Add(input, new KeyState());
+            }
+            keyStates.Remove(Key.None); // Will crash when calling IsDown
+
             Image image = new Image();
-            image.KeyDown += KeyDown;
-            image.KeyUp += KeyUp;
             image.Focusable = true;
             image.Focus();
 
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
-            RenderOptions.SetEdgeMode(image, EdgeMode.Aliased);
+            RenderOptions.SetEdgeMode(image, EdgeMode.Unspecified);
 
             fpsCounter = new Label();
             fpsCounter.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
@@ -74,7 +81,6 @@ namespace VSGames.Games
             deltaTimeStopWatch.Start();
             CompositionTarget.Rendering += Loop;
         }
-
         
         private void Loop(object sender, EventArgs e)
         {
@@ -82,6 +88,24 @@ namespace VSGames.Games
             float deltaTime = (float)deltaTimeStopWatch.Elapsed.TotalSeconds;
             deltaTimeStopWatch.Restart();
             fpsCounter.Content = $"{(int)(1f / deltaTime)} fps";
+
+            // Update Keys
+            foreach(var pair in keyStates)
+            {
+                bool newVal = Keyboard.IsKeyDown(pair.Key);
+
+                if (pair.Value.IsDown == false && newVal == true)
+                    pair.Value.IsJustDown = true;
+                else
+                    pair.Value.IsJustDown = false;
+
+                if(pair.Value.IsDown == true && newVal == false)
+                    pair.Value.IsJustUp = true;
+                else
+                    pair.Value.IsJustUp = false;
+
+                pair.Value.IsDown = newVal;
+            }
 
             try
             {
@@ -98,13 +122,6 @@ namespace VSGames.Games
             {
                 bitmapLocked = false;
                 bitmap.Unlock(); // Release the back buffer and make it available for display
-            }
-
-            // Reset Keys
-            for (int i = 0; i < keyStates.Length; i++)
-            {
-                keyStates[i].IsJustDown = false;
-                keyStates[i].IsJustUp = false;
             }
         }
 
@@ -128,31 +145,6 @@ namespace VSGames.Games
             return (color.R << 16) | (color.G << 8) | color.B;
         }
 
-
-        private void KeyUp(object sender, KeyEventArgs e)
-        {
-            if (keyStates[(int)e.Key].IsDown == true)
-                keyStates[(int)e.Key].IsJustUp = true;
-
-            keyStates[(int)e.Key].IsDown = false;
-
-            OnKeyUp?.Invoke(sender, e);
-
-            e.Handled = true;
-        }
-
-        private void KeyDown(object sender, KeyEventArgs e)
-        {
-            if(keyStates[(int)e.Key].IsDown == false)
-                keyStates[(int)e.Key].IsJustDown = true;
-
-            keyStates[(int)e.Key].IsDown = true;
-
-            OnKeyDown?.Invoke(sender, e);
-
-            e.Handled = true;
-        }
-
-        protected KeyState GetKey(Key key) => keyStates[(int)key];
+        protected KeyState GetKey(Key key) => keyStates.TryGetValue(key, out KeyState state) ? state : new KeyState();
     }
 }

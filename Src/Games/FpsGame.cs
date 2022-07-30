@@ -57,7 +57,7 @@ namespace VSGames.Games
         private Vector2 cameraPos = new Vector2(0, 5); // Starts at 0,5
 
 
-        public FpsGame() : base("Shooter Game", new System.Drawing.Size(512, 256))
+        public FpsGame() : base("Shooter Game", new System.Drawing.Size(256, 256))
         {
             wallTexture = new ReadOnlyBitmap((System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("Resources/Fps/Wall.png")); // From http://opengameart.org/content/dungeon-crawl-32x32-tiles
         }
