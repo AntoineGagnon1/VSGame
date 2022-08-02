@@ -15,10 +15,10 @@
         defining some of the constants that we will use inside the file. -->
 
   <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
-  <Extern href="stdidcmd.h"/>
+  <Extern href="stdidcmd.h" />
 
   <!--This header contains the command ids for the menus provided by the shell. -->
-  <Extern href="vsshlids.h"/>
+  <Extern href="vsshlids.h" />
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
@@ -42,8 +42,8 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidVSGamesPackageCmdSet" id="GameViewCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+      <Button guid="guidVSGamesPackageCmdSet" id="cmdidMainMenuCommand" priority="0x0100" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
         <Icon guid="guidImages" id="logo" />
         <Strings>
           <ButtonText>VsGames</ButtonText>
@@ -58,7 +58,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\Logo.png" usedList="logo"/>
+      <Bitmap guid="guidImages" href="Resources\Logo.png" usedList="logo" />
     </Bitmaps>
   </Commands>
 
@@ -68,10 +68,10 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidVSGamesPackageCmdSet" value="{bcaf637c-29a7-41f6-b761-a93850666839}">
-      <IDSymbol name="GameViewCommandId" value="0x0100" />
+      <IDSymbol name="cmdidMainMenuCommand" value="257" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{a04a63ca-60f9-4c69-9d2a-187652779f73}" >
+    <GuidSymbol name="guidImages" value="{a04a63ca-60f9-4c69-9d2a-187652779f73}">
       <IDSymbol name="logo" value="1" />
     </GuidSymbol>
   </Symbols>
