@@ -22,6 +22,7 @@ namespace VSGames.Games
     /// implementation of the IVsUIElementPane interface.
     /// </para>
     /// </remarks>
+    [Guid("7cae38a8-a631-4ba5-a37e-098df7db38c2")]
     public class FpsGame : GameWindow
     {
         private static readonly double Deg2Rad = Math.PI / 180.0;
@@ -49,7 +50,7 @@ namespace VSGames.Games
             { 0,0,0,0,0,0,0,0,0,0 }
         };
 
-        private static readonly float RotSpeed = 100f;
+        private static readonly float RotSpeed = 50f;
         private static readonly float MoveSpeed = 2f;
 
         private float cameraRot = 0f; // In Degrees

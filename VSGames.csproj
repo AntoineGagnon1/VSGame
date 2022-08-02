@@ -53,15 +53,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Src\Games\FpsGameCommand.cs" />
     <Compile Include="Src\Games\GameWindow.cs" />
-    <Compile Include="Src\Menus\MainMenu.cs" />
-    <Compile Include="Src\Menus\MainMenuCommand.cs" />
-    <Compile Include="Src\Menus\MainMenuControl.xaml.cs">
-      <DependentUpon>MainMenuControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Src\ReadOnlyBitmap.cs" />
     <Compile Include="Src\Games\FpsGame.cs" />
+    <Compile Include="Src\Games\FpsGameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\VSGamesPackage.cs" />
   </ItemGroup>
@@ -89,24 +84,15 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.1.4054" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Fps\Icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Content Include="Resources\Fps\Wall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Logo.png" />
-    <Content Include="Src\Menus\Logo.png" />
     <VSCTCompile Include="VSGamesPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Page Include="Src\Menus\MainMenuControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

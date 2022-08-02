@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace VSGames
+namespace VSGames.Games
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -26,7 +26,7 @@ namespace VSGames
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(VSGamesPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(VSGame.MainMenu))]
+    [ProvideToolWindow(typeof(FpsGame))]
     public sealed class VSGamesPackage : AsyncPackage
     {
         /// <summary>
@@ -48,8 +48,7 @@ namespace VSGames
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            await VSGame.MainMenuCommand.InitializeAsync(this);
-            await VSGames.Games.FpsGameCommand.InitializeAsync(this);
+            await FpsGameCommand.InitializeAsync(this);
         }
 
         #endregion
