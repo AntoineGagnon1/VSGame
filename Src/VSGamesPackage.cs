@@ -27,6 +27,7 @@ namespace VSGames.Games
     [Guid(VSGamesPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(FpsGame))]
+    [ProvideToolWindow(typeof(VSGames.Menus.MainMenu))]
     public sealed class VSGamesPackage : AsyncPackage
     {
         /// <summary>
@@ -48,7 +49,7 @@ namespace VSGames.Games
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            await FpsGameCommand.InitializeAsync(this);
+            await VSGames.Menus.MainMenuCommand.InitializeAsync(this);
         }
 
         #endregion
