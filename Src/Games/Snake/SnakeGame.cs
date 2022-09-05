@@ -103,7 +103,7 @@ namespace VSGames.Games
                 }
                 
                 // Show the score
-                DrawString($"Highscore : {VSGame.Settings.Default.SnakeScore}  Score : {score}", new Font("Tahoma", 8), Color.Black, Vector2.Zero);
+                DrawString($"Hi-Score : {VSGame.Settings.Default.SnakeScore}  Score : {score}", new Font("Tahoma", 8), Color.Black, Vector2.Zero);
             }
 
         }
