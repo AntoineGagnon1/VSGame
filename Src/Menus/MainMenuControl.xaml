@@ -21,9 +21,9 @@
                     </StackPanel>
                 </Button>
 
-                <Button Click="fps_click" x:Name="snake" Background="{x:Null}" Margin="8,0,8,0" BorderThickness="0,0,0,0">
+                <Button Click="snake_click" x:Name="snake" Background="{x:Null}" Margin="8,0,8,0" BorderThickness="0,0,0,0">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="/VSGame;component/Resources/Fps/Icon.png" Width="64" Height="64" Stretch="Fill"/>
+                        <Image Source="/VSGame;component/Resources/Snake/Icon.png" Width="64" Height="64" Stretch="Fill"/>
                         <TextBlock Margin="10" HorizontalAlignment="Center" FontFamily="Cascadia Mono" Foreground="#FFD6D6D6">Snake</TextBlock>
                     </StackPanel>
                 </Button>

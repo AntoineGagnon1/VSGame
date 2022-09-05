@@ -11,17 +11,6 @@ using System.Windows.Shapes;
 
 namespace VSGames.Games
 {
-    /// <summary>
-    /// This class implements the tool window exposed by this package and hosts a user control.
-    /// </summary>
-    /// <remarks>
-    /// In Visual Studio tool windows are composed of a frame (implemented by the shell) and a pane,
-    /// usually implemented by the package implementer.
-    /// <para>
-    /// This class derives from the ToolWindowPane class provided from the MPF in order to use its
-    /// implementation of the IVsUIElementPane interface.
-    /// </para>
-    /// </remarks>
     [Guid("7cae38a8-a631-4ba5-a37e-098df7db38c2")]
     public class FpsGame : GameWindow
     {

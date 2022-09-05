@@ -29,6 +29,7 @@ namespace VSGames.Games
         private WriteableBitmap bitmap; // Used to draw to the screen
         private bool bitmapLocked = false;
         private IntPtr bitmapBuffer;
+        private System.Drawing.Bitmap regularBitmap;
 
         private Dictionary<Key, KeyState> keyStates = new Dictionary<Key, KeyState>();
 
@@ -41,7 +42,7 @@ namespace VSGames.Games
 
         /// <param name="name">The name in the title bar</param>
         /// <param name="screenBufferSize">The size of the screen buffer (does not need to match the size of the window)</param>
-        public GameWindow(string name, System.Drawing.Size screenBufferSize) : base(null)
+        public GameWindow(string name, System.Drawing.Size screenBufferSize, Stretch stretchMode = Stretch.Fill) : base(null)
         {
             this.Caption = name;
 
@@ -73,10 +74,11 @@ namespace VSGames.Games
 
             image.Source = bitmap;
 
-            image.Stretch = Stretch.Fill;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
+            image.Stretch = stretchMode;
+            image.HorizontalAlignment = HorizontalAlignment.Center;
+            image.VerticalAlignment = VerticalAlignment.Center;
 
+            regularBitmap = new System.Drawing.Bitmap(bitmap.PixelWidth, bitmap.PixelHeight, bitmap.BackBufferStride, System.Drawing.Imaging.PixelFormat.Format32bppRgb, bitmap.BackBuffer);
 
             deltaTimeStopWatch.Start();
             CompositionTarget.Rendering += Loop;
@@ -135,6 +137,18 @@ namespace VSGames.Games
                 unsafe
                 {
                     *((int*)(bitmapBuffer + (x * 4) + (y * bitmap.BackBufferStride))) = GetColorInt(color);
+                }
+            }
+        }
+
+        protected void DrawString(string str, System.Drawing.Font font, System.Drawing.Color color, System.Numerics.Vector2 pos)
+        {
+            if (bitmapLocked)
+            {
+                using (var g = System.Drawing.Graphics.FromImage(regularBitmap))
+                {
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+                    g.DrawString(str, font, new System.Drawing.SolidBrush(color), pos.X, pos.Y);
                 }
             }
         }

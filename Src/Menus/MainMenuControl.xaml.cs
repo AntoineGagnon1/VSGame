@@ -24,7 +24,7 @@ namespace VSGames.Menus
 
         private void snake_click(object sender, RoutedEventArgs e)
         {
-            MainMenuCommand.OpenWindow<Games.FpsGame>();
+            MainMenuCommand.OpenWindow<Games.SnakeGame>();
         }
     }
 }

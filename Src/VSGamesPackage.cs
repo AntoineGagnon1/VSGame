@@ -27,6 +27,7 @@ namespace VSGames.Games
     [Guid(VSGamesPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(FpsGame))]
+    [ProvideToolWindow(typeof(SnakeGame))]
     [ProvideToolWindow(typeof(VSGames.Menus.MainMenu))]
     public sealed class VSGamesPackage : AsyncPackage
     {
